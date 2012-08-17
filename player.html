@@ -1,0 +1,24 @@
+<head>
+</head>
+
+<body>
+  <div id='video'></div>
+  <div id='tvideo' style="display:none"></div>
+  <div class='jcont'>
+    <div class="jcarousel">
+      {{> foo}}
+    </div>
+  </div>
+</body>
+
+<template name="foo">
+    <ul class="playlist">
+      {{#each list}}
+      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
+      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
+      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
+      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
+      {{/each}}
+    </ul>
+
+</template>
