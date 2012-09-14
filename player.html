@@ -3,9 +3,8 @@
 
 <body>
   <div id='video'></div>
-  <div id='tvideo' style="display:none"></div>
   <div class='jcont'>
-    <div class="jcarousel">
+    <div class="mycarousel">
       {{> foo}}
     </div>
   </div>
@@ -14,10 +13,7 @@
 <template name="foo">
     <ul class="playlist">
       {{#each list}}
-      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
-      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
-      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
-      <li url="{{url}}"><img src="http://img.youtube.com/vi/{{id}}/0.jpg"></li>
+      <li id="li-{{id}}" url="{{url}}"><img id="img-{{id}}" src="{{image}}"></li>
       {{/each}}
     </ul>
 
