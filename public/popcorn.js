@@ -8965,18 +8965,22 @@ api - https://github.com/documentcloud/document-viewer/blob/master/public/javasc
         autoPlay = ( /autoplay=1/.test( query ) );
 
         params = query.split( /[\&\?]/g );
-        playerVars = { wmode: "transparent" };
+        playerVars = { wmode: "direct" };
 
         for( var i = 0; i < params.length; i++ ) {
           queryStringItem = params[ i ].split( "=" );
           playerVars[ queryStringItem[ 0 ] ] = queryStringItem[ 1 ];
         }
-        
+
         options.youtubeObject = new YT.Player( container.id, {
           height: "100%",
           width: "100%",
-          wmode: "transparent",
-          playerVars: playerVars,
+          playerVars: {
+	      wmode: 'direct',
+	      controls: 1,
+              showinfo: 0 ,
+              modestbranding: 1
+	  },
           videoId: src,
           events: {
             "onReady": function(){

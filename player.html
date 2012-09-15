@@ -2,19 +2,23 @@
 </head>
 
 <body>
+  <div class='top'>
+    <div class='title'></div>
+  </div>  
+  <div class='main'>
   <div id='video'></div>
   <div class='jcont'>
     <div class="mycarousel">
       {{> foo}}
     </div>
   </div>
+  </div>
 </body>
 
 <template name="foo">
     <ul class="playlist">
       {{#each list}}
-      <li id="li-{{id}}" url="{{url}}"><img id="img-{{id}}" src="{{image}}"></li>
+      <li rel="popover" data-placement="left" id="li-{{id}}" url="{{url}}"><img id="img-{{id}}" src="{{image}}"></li>
       {{/each}}
     </ul>
-
 </template>

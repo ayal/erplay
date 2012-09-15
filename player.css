@@ -1,13 +1,37 @@
 html,body {
-    height: 98%;
-    width: 98%;
+    height: 100%;
+    width: 100%;
+    overflow:hidden;
+    padding: 0px 0px 0px 0px !important;
+    background-color: peachPuff;
 }
+
+.top {
+    height: 10%;
+    width: 100%;
+    overflow:hidden;
+    padding: 0px 0px 0px 0px !important;
+    background-color: peachPuff;    
+}
+
+.top .title {
+font-size: 20px;
+margin: 10px 6px 0px 6px;
+color: #806955;
+}
+
+.main {
+    height: 90%;
+    width: 100%;
+    overflow:hidden;
+    padding: 0px 0px 0px 0px !important;
+    background-color: peachPuff;
+}
+
 
 #video {
     height: 100%;
-    border: 1px solid orange;
-    background: grey;
-    width: 74%;
+    width: 84%;
     float: left;
 }
 
@@ -17,39 +41,47 @@ html,body {
 }
 
 .jcont {
-    width: 25%;
+    width: 13%;
     float: left;
     height:100%;
-
+    margin-left:5px;
 }
 
 .mycarousel {
-    float: left;
-    position: relative;
-    overflow: auto;
-    height: 100%;
-    width: 100%;
+float: left;
+position: relative;
+overflow-y: hidden;
+height: 100%;
+width: 100%;
+overflow-x: hidden;
 }
 
 ul.playlist li img{
-    width: 100px;
-    height: 100px;
+height: 25%;
+border-radius: 199px;
+box-shadow: 0px 0px 10px 1px;
+opacity: 0.7;
+}
+
+ul.playlist li.selected img {
+    box-shadow: red 0px 0px 10px 1px;
 }
 
 .mycarousel ul { 
 /*     position: absolute; */
-     list-style: none; */
-     margin: 0; */
-     padding: 0; */
+     list-style: none; 
+     margin: 0px !important; 
+     padding: 0; 
+background-color: transparent;
  } 
 
-.mycarousel li:hover {
+
+.mycarousel li img:hover, .mycarousel li.selected img{
     opacity: 1;
 }
 
-.jcarousel li {
-    /* float: left; */
-    margin: 2px 2px 2px 2px;
-    border: 1px solid orange;
-    opacity: 0.8;
+.mycarousel li {
+    border-radius: 199px;
+    margin: 8px 2px 8px 2px;
+    background-color:black;
 }
