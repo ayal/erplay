@@ -111,15 +111,17 @@ if (Meteor.is_client) {
 
     Meteor.startup(function () {
 
+
 $('.mycarousel ul')
     .on('mouseenter', function(e) {
         // get left offset of div on page
         $(window).on('mousemove', function(e) {
             // get percent of height the mouse position is at
-            var percent = (e.pageY - 50) / $(window).height();
-
+            var percent = (e.pageY - 50) / ($(window).height() - 50);
+console.log(percent);
             // set margin-left on ul to achieve a 'scroll' effect
-            $('.mycarousel').scrollTop(percent * ($(window).height() + 315));
+            $('.mycarousel').scrollTop(percent * $('.mycarousel ul').height());
+
         });
     })
     .on('mouseleave', function() {

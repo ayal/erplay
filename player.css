@@ -3,7 +3,7 @@ html,body {
     width: 100%;
     overflow:hidden;
     padding: 0px 0px 0px 0px !important;
-    background-color: peachPuff;
+    background-color: black;
 }
 
 .top {
@@ -11,7 +11,7 @@ html,body {
     width: 100%;
     overflow:hidden;
     padding: 0px 0px 0px 0px !important;
-    background-color: peachPuff;    
+
 }
 
 .top .title {
@@ -25,7 +25,7 @@ color: #806955;
     width: 100%;
     overflow:hidden;
     padding: 0px 0px 0px 0px !important;
-    background-color: peachPuff;
+
 }
 
 
@@ -59,12 +59,12 @@ overflow-x: hidden;
 ul.playlist li img{
 height: 25%;
 border-radius: 199px;
-box-shadow: 0px 0px 10px 1px;
+box-shadow: peachpuff 0px 0px 5px 1px;
 opacity: 0.7;
 }
 
 ul.playlist li.selected img {
-    box-shadow: red 0px 0px 10px 1px;
+    box-shadow: red 0px 0px 20px 1px !important;
 }
 
 .mycarousel ul { 
@@ -75,6 +75,9 @@ ul.playlist li.selected img {
 background-color: transparent;
  } 
 
+.mycarousel li img:hover{
+    box-shadow: peachPuff 0px 0px 30px 1px !important;
+}
 
 .mycarousel li img:hover, .mycarousel li.selected img{
     opacity: 1;
@@ -84,4 +87,6 @@ background-color: transparent;
     border-radius: 199px;
     margin: 8px 2px 8px 2px;
     background-color:black;
+    cursor: pointer;
+
 }
