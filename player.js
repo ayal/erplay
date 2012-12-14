@@ -1,5 +1,4 @@
 playlist = new Meteor.Collection("playlist");
-shorts = new Meteor.Collection("shorts");
 
 if (Meteor.is_client) {
 
@@ -27,7 +26,6 @@ if (Meteor.is_client) {
   }
 
   window.geturl = function(e, returnf){
-    debugger;
     var id = e.id.replace('li-', '');
     if (('' + id).length < 5) {
       returnf();
@@ -91,6 +89,7 @@ if (Meteor.is_client) {
 		  .attr('data-content', 'views: ' +
 			t.entry.yt$statistics.viewCount)
 		  .popover();
+                $('#img-' + that.id).attr('src',  "http://img.youtube.com/vi/" + that.id + "/0.jpg");
 		$(document).trigger(that.id + '-ready');
 	      }});
 
@@ -124,16 +123,9 @@ if (Meteor.is_client) {
   };
 
   Template.foo.list = function () {
-    var hid = Session.get("hid");
-    if (!hid) {
-      return {};
-    }
-
-    var hash = shorts.findOne({_id: hid});
-    if (!hash) {
-      return {};
-    }
-    window.hash = hash.hash;
+    
+    var hashnow = parsehash();
+    window.hash = hashnow;
     var dups = {};
     var parsed = $.map(window.hash.playlist, function(x){
       x = JSON.parse(x);
@@ -144,15 +136,6 @@ if (Meteor.is_client) {
       x['image'] = getthumb;
       return x;
     });
-
-    setTimeout(function(){
-      if (window.hash.lastWatched) {
-        $('#li-' + window.hash.lastWatched).click();
-      }
-      else {
-        $($('.mycarousel li')[0]).click();   
-      }
-    },0);
     
     return parsed;
   };
@@ -223,9 +206,12 @@ if (Meteor.is_client) {
 	    pop.media.addEventListener("ended", function() {
 	      playel($(e).next()[0]);
 	    });
-	    setTimeout(function(){
-	      pop.play();
-	    }, 2000);
+
+            window.pop.media.addEventListener("canplaythrough", function() {
+              setTimeout(function(){
+                window.pop.play();      
+              },500);
+            });
 
           };
 
@@ -249,32 +235,13 @@ if (Meteor.is_client) {
 
       });
 
-    var AppRouter = Backbone.Router.extend({
-      
-      routes: {
-        "s/:id" : "getshort"
-      },
-      getshort: function(query) {
-        console.log('getting short', query);
-        
-        Session.set("hid", query);
-      }});
-
-    window.app_router = new AppRouter();
 
     var hashnow = parsehash();
-
-    if (hashnow.message) {
-      hashnow.playlist = hashnow.playlist.splice(0,500);
-      var id = shorts.insert({hash: hashnow});
-      console.log('saved', id, hashnow);
-      setTimeout(function(){
-        location.href = '/s/' + id;
-      },5000);
+    if (hashnow.lastWatched) {
+      $('#li-' + hashnow.lastWatched).click();
     }
     else {
-      Backbone.history.start({pushState: true});
+      $($('.mycarousel li')[0]).click();   
     }
-
   });
 }
