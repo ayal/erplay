@@ -8974,16 +8974,15 @@ api - https://github.com/documentcloud/document-viewer/blob/master/public/javasc
         options.youtubeObject = new YT.Player( container.id, {
           height: "100%",
           width: "100%",
-          wmode: "transparent",
-          videoId: src,
+          videoId: src, 
           playerVars: {
-            'autoplay': 1, 'wmode': "opaque", 'autohide': 1, 'showinfo': 0, 'modestbranding': 1, 'controls': 1, 'hd': 0, 'iv_load_policy': 3
+            'autoplay': 1, 'wmode': "direct", 'autohide': 1, 'showinfo': 0, 'modestbranding': 1, 'controls': 1, 'hd': 0, 'iv_load_policy': 3
           },
-          events: {
+           events: {
             "onReady": function(){
 
               // pulling initial volume states form baseplayer
-              lastVolume = media.volume;
+/*              lastVolume = media.volume;
               lastMuted = media.muted;
 
               volumeupdate();
@@ -8992,7 +8991,7 @@ api - https://github.com/documentcloud/document-viewer/blob/master/public/javasc
               createProperties();
               options.youtubeObject.playVideo();
 
-              media.currentTime = fragmentStart;
+              media.currentTime = fragmentStart;*/
               // wait to dispatch ready events until we get a duration
             },
             "onStateChange": function( state ){
@@ -9006,12 +9005,12 @@ api - https://github.com/documentcloud/document-viewer/blob/master/public/javasc
               if ( state.data === 2 ) {
                 paused = true;
                 media.dispatchEvent( "pause" );
-                playerQueue.next();
+//                playerQueue.next();
               } else if ( state.data === 1 && !firstPlay ) {
                 paused = false;
                 media.dispatchEvent( "play" );
                 media.dispatchEvent( "playing" );
-                playerQueue.next();
+//                playerQueue.next();
               } else if ( state.data === 0 ) {
                 media.dispatchEvent( "ended" );
               } else if ( state.data === 1 && firstPlay ) {
