@@ -213,7 +213,6 @@ if (Meteor.is_client) {
               window.pop = Popcorn.smart("#video", u);   
             }
             else {
-              alert('load by url');
               window.pop.options.youtubeObject.loadVideoByUrl(u);
             }
 	    
