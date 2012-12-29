@@ -51,7 +51,7 @@ if (Meteor.is_client) {
                   return;
                 }
 
-                returnf('http://www.youtube.com/watch/' + id);
+                returnf('http://www.youtube.com/v/' + id);
 	      },
               error: function(){
                 returnf(null);
@@ -148,7 +148,7 @@ if (Meteor.is_client) {
           // get percent of height the mouse position is at
           var percent = (e.pageY - 100) / ($(window).height() - 100);
           // set margin-left on ul to achieve a 'scroll' effect
-          $('.mycarousel').scrollTop(percent * $('.mycarousel ul').height());
+//          $('.mycarousel').scrollTop(percent * $('.mycarousel ul').height());
 
         });
       })
@@ -164,21 +164,29 @@ if (Meteor.is_client) {
 
 
     $('body')
-      .on('click', ".mycarousel li", function() {
+      .on('click touchstart', ".mycarousel li", function() {
         console.log("XX");
         function playel(e) {
 	  
 	  var percent = $(e).position().top / $(window).height();
 	  
 	  // set margin-left on ul to achieve a 'scroll' effect
-	  $('.mycarousel').scrollTop(percent * ($(window).height() + 315));
-
-
+//	  $('.mycarousel').scrollTop(percent * ($(window).height() + 315));
+          
+          var smoothnext = false;
 	  var eready = $.data(e, 'ready');
           try {
-            window.pop && window.pop.destroy();   
+            if (window.pop) {
+              if (window.pop.options.youtubeObject) {
+                smoothnext = true;
+              }
+              else {
+                window.pop.destroy();            
+	        $('#video').html('');
+              }
+            }
           } catch (x) {
-
+            
           }
 	  var id = e.id.split('li-')[1];
 	  $('li.selected').removeClass('selected');
@@ -198,10 +206,15 @@ if (Meteor.is_client) {
 
 	  window.nowplaying = id;
           //	sendhash({lastWatched: id});
-	  $('#video').html('');
+
 
           playUrl = function(u){
-            window.pop = Popcorn.smart("#video", u);
+            if (!smoothnext) {
+              window.pop = Popcorn.smart("#video", u);   
+            }
+            else {
+              window.pop.options.youtubeObject.loadVideoByUrl(u);
+            }
 	    
 	    pop.media.addEventListener("ended", function() {
 	      playel($(e).next()[0]);
