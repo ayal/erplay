@@ -51,7 +51,7 @@ if (Meteor.is_client) {
                   return;
                 }
 
-                returnf('http://www.youtube.com/v/' + id);
+                returnf('http://www.youtube.com/v/' + id + '?autoplay=1');
 	      },
               error: function(){
                 returnf(null);
@@ -213,16 +213,17 @@ if (Meteor.is_client) {
               window.pop = Popcorn.smart("#video", u);   
             }
             else {
+              alert('load by url');
               window.pop.options.youtubeObject.loadVideoByUrl(u);
             }
 	    
 	    pop.media.addEventListener("ended", function() {
-	      playel($(e).next()[0]);
+	      $(e).next()[0] && playel($(e).next()[0]);
 	    });
 
             window.pop.media.addEventListener("canplaythrough", function() {
               setTimeout(function(){
-                window.pop.play();      
+//                window.pop.play();      
               },500);
             });
 

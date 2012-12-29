@@ -8740,7 +8740,7 @@ api - https://github.com/documentcloud/document-viewer/blob/master/public/javasc
       }
 
       var media = this,
-          autoPlay = false,
+          autoPlay = true,
           container = document.createElement( "div" ),
           currentTime = 0,
           paused = true,
