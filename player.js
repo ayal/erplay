@@ -245,11 +245,24 @@ if (Meteor.is_client) {
 
 
     var hashnow = parsehash();
+    if (hashnow.nolist) {
+        $('#video').css('width', '99%');
+        $('.jcont').hide();
+    }
+
+    $(window).bind('hashchange', function() {
+      var hashnow = parsehash();
+      if (hashnow.lastWatched) {
+        $('#li-' + hashnow.lastWatched).click();
+      }
+    });
+    
     if (hashnow.lastWatched) {
       $('#li-' + hashnow.lastWatched).click();
     }
     else {
       $($('.mycarousel li')[0]).click();   
     }
+
   });
 }
