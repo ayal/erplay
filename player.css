@@ -1,7 +1,7 @@
 /* Let's get this party started */
 ::-webkit-scrollbar {
         width: 12px;
-	}
+}
 
 /* Track */
 ::-webkit-scrollbar-track {
@@ -40,7 +40,7 @@ html,body {
 }
 
 .top .title {
-font-size: 20px;
+font-size: 15px;
 margin: 10px 6px 0px 6px;
 color: #806955;
 }

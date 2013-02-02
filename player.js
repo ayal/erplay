@@ -154,8 +154,15 @@ if (Meteor.is_client) {
       .on('mouseleave', function() {
         // remove mousemove event
         $(window).off('mousemove');
+      })
+      .on('click', '#prev', function(){
+        $(window.ce).prev()[0] && playel($(window.ce).prev()[0]);
+      })
+      .on('click', '#next', function(){
+        $(window.ce).next()[0] && playel($(window.ce).next()[0]);
       });
 
+    
 
     // $('.jcarousel').jcarousel({
     // 				     // Configuration goes here
@@ -165,7 +172,7 @@ if (Meteor.is_client) {
     $('body')
       .on('click touchstart', ".mycarousel li", function() {
         console.log("XX");
-        function playel(e) {
+       window.playel = function(e) {
 	  
 	  var percent = $(e).position().top / $(window).height();
 	  
@@ -205,7 +212,7 @@ if (Meteor.is_client) {
 
 	  window.nowplaying = id;
           //	sendhash({lastWatched: id});
-
+         window.top.postMessage({'nowplaying': id}, '*');
           window.ce = e;
           playUrl = function(u){
             if (!smoothnext) {
