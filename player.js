@@ -1,6 +1,10 @@
 playlist = new Meteor.Collection("playlist");
 
 if (Meteor.is_client) {
+  Meteor._reload.onMigrate(function () {
+    return false;
+  });
+
   function sendhash(hsh){
     var hashnow = parsehash();
     hashnow = $.extend(hashnow, hsh);
@@ -139,7 +143,9 @@ if (Meteor.is_client) {
     return parsed;
   };
 
+  window.loop = false;
   Meteor.startup(function () {
+
     $('body')
       .on('mouseenter', ".mycarousel ul", function(e) {
         // get left offset of div on page
@@ -160,14 +166,11 @@ if (Meteor.is_client) {
       })
       .on('click', '#next', function(){
         $(window.ce).next()[0] && playel($(window.ce).next()[0]);
+      })      
+      .on('click', '#loop', function(){
+        window.loop = !window.loop;
+        $(this).toggleClass('btn-warning').toggleClass('btn-info');
       });
-
-    
-
-    // $('.jcarousel').jcarousel({
-    // 				     // Configuration goes here
-    // 				 });
-
 
     $('body')
       .on('click touchstart', ".mycarousel li", function() {
@@ -218,7 +221,12 @@ if (Meteor.is_client) {
             if (!smoothnext) {
               window.pop = Popcorn.smart("#video", u);   
 	      pop.media.addEventListener("ended", function() {
-	        $(window.ce).next()[0] && playel($(window.ce).next()[0]);
+                if (window.loop) {
+                  playel(window.ce);
+                }
+                else {
+                  $(window.ce).next()[0] && playel($(window.ce).next()[0]);   
+                }
 	      });
 
             }
