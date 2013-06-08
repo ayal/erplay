@@ -201,13 +201,15 @@ if (Meteor.is_client) {
 	  $('li.selected').removeClass('selected');
 	  $(e).addClass('selected');
 	  if ($(e).attr('data-original-title')) {
-	    $('.top .title').text($(e).attr('data-original-title'));
+	      var short  = $(e).attr('data-original-title').replace(/\(.*?\)/gim,'');
+	    $('.top .title').text(short);
 	  }
 	  else {
 	    $(document)
 	      .bind(id +
 		    '-ready', function() {
-		      $('.top .title').text($(e).attr('data-original-title'));
+			var short  = $(e).attr('data-original-title').replace(/\(.*?\)/gim,'');
+		      $('.top .title').text(short);
 		    });
 	    
 	  }
@@ -261,7 +263,7 @@ if (Meteor.is_client) {
 
     var hashnow = parsehash();
     if (hashnow.nolist) {
-        $('#video').css('width', '99%');
+        $('#video').css('width', '100%');
         $('.jcont').hide();
     }
 

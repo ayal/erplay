@@ -29,6 +29,7 @@ html,body {
     overflow:hidden;
     padding: 0px 0px 0px 0px !important;
     background-color: black;
+    font-family: Lato !important;
 }
 
 .top {
@@ -36,11 +37,12 @@ html,body {
     width: 100%;
     overflow:hidden;
     padding: 0px 0px 0px 0px !important;
+    background: black;
 
 }
 
 .top .title {
-font-size: 15px;
+font-size: 10px;
 margin: 10px 6px 0px 6px;
 color: #806955;
 }
