@@ -1,6 +1,6 @@
 playlist = new Meteor.Collection("playlist");
 
-if (Meteor.is_client) {
+if (Meteor.isClient) {
   Meteor._reload.onMigrate(function () {
     return false;
   });
@@ -21,6 +21,7 @@ if (Meteor.is_client) {
 	(location.hash.indexOf('message') > 0 || location.hash.indexOf('playlist')) ?
 	JSON.parse(decodeURIComponent(location.hash.substr(1))) : {
 	};
+      Session.set('hashchange',location.hash);
       return hashdata;
     } catch (e) {
       
@@ -126,7 +127,7 @@ if (Meteor.is_client) {
   };
 
   Template.foo.list = function () {
-    
+      var hashchange = Session.get('hashchange');
     var hashnow = parsehash();
     window.hash = hashnow;
     var dups = {};
@@ -162,10 +163,10 @@ if (Meteor.is_client) {
         $(window).off('mousemove');
       })
       .on('click', '#prev', function(){
-        $(window.ce).prev()[0] && playel($(window.ce).prev()[0]);
+        $('#li-' + window.nowplaying).prev()[0] && playel($('#li-' + window.nowplaying).prev()[0]);
       })
       .on('click', '#next', function(){
-        $(window.ce).next()[0] && playel($(window.ce).next()[0]);
+        $('#li-' + window.nowplaying).next()[0] && playel($('#li-' + window.nowplaying).next()[0]);
       })      
       .on('click', '#loop', function(){
         window.loop = !window.loop;
@@ -200,34 +201,30 @@ if (Meteor.is_client) {
 	  var id = e.id.split('li-')[1];
 	  $('li.selected').removeClass('selected');
 	  $(e).addClass('selected');
-	  if ($(e).attr('data-original-title')) {
-	      var short  = $(e).attr('data-original-title').replace(/\(.*?\)/gim,'');
-	    $('.top .title').text(short);
-	  }
-	  else {
-	    $(document)
-	      .bind(id +
-		    '-ready', function() {
-			var short  = $(e).attr('data-original-title').replace(/\(.*?\)/gim,'');
-		      $('.top .title').text(short);
-		    });
-	    
-	  }
 
+	   if ($(e).attr('data-original-title')) {
+	       var short  = $(e).attr('data-original-title').replace(/\(.*?\)/gim,'');
+	       $('.top .title').text(short);
+	   }
+	   $(document).bind(id + '-ready', function(){
+	       if ($(e).attr('data-original-title') && id === window.nowplaying) {
+		   var short  = $(e).attr('data-original-title').replace(/\(.*?\)/gim,'');
+		   $('.top .title').text(short);
+	       }
+	   });
 
 	  window.nowplaying = id;
           //	sendhash({lastWatched: id});
          window.top.postMessage({'nowplaying': id}, '*');
-          window.ce = e;
           playUrl = function(u){
             if (!smoothnext) {
               window.pop = Popcorn.smart("#video", u);   
 	      pop.media.addEventListener("ended", function() {
-                if (window.loop) {
-                  playel(window.ce);
+                  if (window.loop) {
+		    playel($('#li-' + window.nowplaying));
                 }
                 else {
-                  $(window.ce).next()[0] && playel($(window.ce).next()[0]);   
+                    $('#li-' + window.nowplaying).next()[0] && playel($('#li-' + window.nowplaying).next()[0]);   
                 }
 	      });
 
@@ -269,9 +266,11 @@ if (Meteor.is_client) {
 
     $(window).bind('hashchange', function() {
       var hashnow = parsehash();
-      if (hashnow.lastWatched) {
-        $('#li-' + hashnow.lastWatched).click();
-      }
+	if (!hashnow.queue) {
+	    setTimeout(function(){
+            $('#li-' + hashnow.lastWatched).click();
+	    },0);
+	}
     });
     
     if (hashnow.lastWatched) {
