@@ -37,32 +37,7 @@ if (Meteor.isClient) {
     }
     var player = $(e).attr('player');
     if (player === 'yt') {
-      $.ajax({url: 
-	      'https://gdata.youtube.com/feeds/api/videos/' +
-	      id + '?v=2&alt=json&bust=' + (new Date()).getTime(),
-	      cache: false,
-	      dataType: "json",
-	      success: function(t,x) {                
-                var isembed = true;
-                _.each(t.entry.yt$accessControl, function(ac){
-                  if (ac.action === 'embed' && ac.permission !== 'allowed') {
-                    isembed = false;
-                  }
-                });
-                
-                if (!isembed) {
-                  returnf(null);
-                  return;
-                }
-
-                returnf('//www.youtube.com/v/' + id + '?autoplay=1');
-	      },
-              error: function(){
-                returnf(null);
-                return;
-              }
-             });
-
+        returnf('//www.youtube.com/v/' + id + '?autoplay=1&controls=1');
     }
     else if (player === 'sc') {
       $.get('//api.soundcloud.com/tracks/' + id +  '.json?client_id=YOUR_CLIENT_ID', {format: "json"}, function(data) {
@@ -218,8 +193,9 @@ if (Meteor.isClient) {
          window.top.postMessage({'nowplaying': id}, '*');
           playUrl = function(u){
             if (!smoothnext) {
-              window.pop = Popcorn.smart("#video", u);   
-	      pop.media.addEventListener("ended", function() {
+		window.pop = Popcorn.smart( "#video", u );
+		pop.play();
+	      pop.on("ended", function() {
                   if (window.loop) {
 		    playel($('#li-' + window.nowplaying));
                 }
