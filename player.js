@@ -108,6 +108,9 @@ if (Meteor.isClient) {
         $(this).toggleClass('btn-warning').toggleClass('btn-info');
       });
 
+      muteonce = _.once(function(){
+	  pop.mute();
+      });
     $('body')
       .on('click touchstart', ".mycarousel li", function() {
         console.log("XX");
@@ -153,7 +156,10 @@ if (Meteor.isClient) {
          window.top.postMessage({'nowplaying': id}, '*');
           playUrl = function(u){
             if (!smoothnext) {
-		window.pop = Popcorn.smart( "#video", u );
+		window.pop = Popcorn.smart( "#video", u, {mute: !!hashnow.mute} );
+		if (hashnow.mute) {
+		    muteonce();
+		}
 		pop.play();
 
 	      pop.on("ended", function() {
