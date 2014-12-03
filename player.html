@@ -24,7 +24,7 @@
 <template name="foo">
     <ul class="playlist">
       {{#each list}}
-      <li rel="popover" data-trigger="hover" data-placement="left" id="li-{{id}}" player="{{player}}" rid='{{id}}'><img id="img-{{id}}" src="{{image}}"></li>
+      <li rel="popover" data-trigger="hover" data-placement="left" id="li-{{id}}" player="{{player}}" rid='{{id}}' url='{{url}}' title='{{title}}'><img id="img-{{id}}" ></li>
       {{/each}}
     </ul>
 </template>

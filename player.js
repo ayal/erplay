@@ -1,5 +1,7 @@
 playlist = new Meteor.Collection("playlist");
 
+clean = function (e,t){return t?e?e.toLowerCase().replace(/^the\s|\sthe\s|\sand\s| ep$/gim," ").replace(/part/gim,"pt").replace(RegExp("[^\\p{L}a-zA-Z0-9]","gim"),"").replace("around","round").trim(" "):"":e?e.toLowerCase().replace(/^the\s|\sthe\s|\sand\s| ep$/gim," ").replace(/\(.*?\)/gim,"").replace(/part/gim,"pt").replace(RegExp("[^\\p{L}a-zA-Z0-9]","gim"),"").replace("around","round").trim(" "):""} 
+
 if (Meteor.isClient) {
   Meteor._reload.onMigrate(function () {
     return false;
@@ -40,12 +42,7 @@ if (Meteor.isClient) {
         returnf('//www.youtube.com/v/' + id + '?autoplay=1&controls=1');
     }
     else if (player === 'sc') {
-      $.get('//api.soundcloud.com/tracks/' + id +  '.json?client_id=YOUR_CLIENT_ID', {format: "json"}, function(data) {
-        returnf(data.permalink_url);
-      }).fail(function(){
-        returnf(null);
-        return;
-      });
+	returnf(id);
     }
     else if (player === 'vm') {
       returnf('//www.vimeo.com/' + id);
@@ -56,47 +53,10 @@ if (Meteor.isClient) {
     var that = this;
 
     if (this.player === 'yt') {
-      $.ajax({url: 
-	      'https://gdata.youtube.com/feeds/api/videos/' +
-	      this.id + '?v=2&alt=json&bust=' + (new Date()).getTime(),
-	      cache: false,
-	      dataType: "json",
-	      success: function(t,x) {                
-		$('#li-' + that.id)
-		  .attr('data-original-title', t.entry.title.$t)
-		//.attr('data-content', t.entry.media$group.media$description.$t)
-		  .attr('data-content', 'views: ' +
-			t.entry.yt$statistics.viewCount)
-		  .popover();
-                $('#img-' + that.id).attr('src',  "//img.youtube.com/vi/" + that.id + "/0.jpg");
-		$(document).trigger(that.id + '-ready');
-	      }});
-
-      return "//img.youtube.com/vi/" + this.id + "/0.jpg";
     }
     else if (this.player === 'vm') {
-
-      $.getJSON('//www.vimeo.com/api/v2/video/' + this.id + '.json?callback=?', {format: "json"}, function(data) {
-	$('#img-' + that.id).attr('src', data[0].thumbnail_large);
-        $('#li-' + that.id)
-	  .attr('data-original-title', data[0].title)
-	  .attr('data-content', '');
-
-	$(document).trigger(that.id + '-ready');
-      });
-      return '';
     }
     else if (this.player === 'sc') {
-
-      $.get('//api.soundcloud.com/tracks/' + that.id +  '.json?client_id=YOUR_CLIENT_ID', {format: "json"}, function(data) {
-        $('#li-' + that.id)
-          .attr('data-original-title', data.title)
-	  .attr('data-content', '');
-
-	$('#img-' + that.id).attr('src', data.artwork_url);
-	$(document).trigger(that.id + '-ready');
-      });
-      return '';
     }
 
   };
@@ -195,6 +155,7 @@ if (Meteor.isClient) {
             if (!smoothnext) {
 		window.pop = Popcorn.smart( "#video", u );
 		pop.play();
+
 	      pop.on("ended", function() {
                   if (window.loop) {
 		    playel($('#li-' + window.nowplaying));
@@ -214,8 +175,9 @@ if (Meteor.isClient) {
           };
 
           var url = $(e).attr('url');
+	   $('.top .title').text( $(e).attr('title'));
           if (url) {
-            playUrl(url);
+              playUrl(url);
           }
           else {
             window.geturl(e, function(u){
