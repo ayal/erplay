@@ -80,6 +80,7 @@ if (Meteor.isClient) {
   };
 
   window.loop = false;
+    window.noise = true;
   Meteor.startup(function () {
 
     $('body')
@@ -106,9 +107,19 @@ if (Meteor.isClient) {
       .on('click', '#loop', function(){
         window.loop = !window.loop;
         $(this).toggleClass('btn-warning').toggleClass('btn-info');
+      }).on('click', '#noise', function(){
+          window.noise = !window.noise;
+	  if (!window.noise) {
+	      pop.mute();
+	  }
+	  else {
+	      pop.volume(0.5);
+	  }
       });
 
+
       muteonce = _.once(function(){
+	  window.noise = false;
 	  pop.mute();
       });
     $('body')
