@@ -5,13 +5,7 @@
 </head>
 
 <body>
-  <div class='top'>
-    <span id="prev" class="btn btn-info btn-small">prev</span>
-    <span id="next" class="btn btn-info btn-small">next</span>
-    <span id="loop" class="btn btn-info btn-small"><img style="width:20px" src="/images/icons/Infinity-Loop@2x.png" alt="Infinity-Loop"></span>
-    <span id="noise" class="btn btn-info btn-small">noise</span>
-    <span class='title'></span>
-  </div>  
+  {{> top}}
   <div class='main'>
   <div id='video'></div>
   <div class='jcont'>
@@ -21,6 +15,16 @@
   </div>
   </div>
 </body>
+
+<template name="top">
+    <div class='top'>
+    <span id="prev" class="btn btn-info btn-small">prev</span>
+    <span id="next" class="btn btn-info btn-small">next</span>
+    <span id="loop" class="btn btn-info btn-small"><img style="width:20px" src="/images/icons/Infinity-Loop@2x.png" alt="Infinity-Loop"></span>
+    <span id="mute" class="btn btn-info btn-small {{muteclass}}">mute</span>
+    <span class='title'></span>
+  </div>  
+</template>
 
 <template name="foo">
     <ul class="playlist">

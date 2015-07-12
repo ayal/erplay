@@ -23,6 +23,7 @@ if (Meteor.isClient) {
 	(location.hash.indexOf('message') > 0 || location.hash.indexOf('playlist')) ?
 	JSON.parse(decodeURIComponent(location.hash.substr(1))) : {
 	};
+	Session.set('mute', hashdata.mute);
       Session.set('hashchange',location.hash);
       return hashdata;
     } catch (e) {
@@ -61,6 +62,10 @@ if (Meteor.isClient) {
 
   };
 
+    Template.top.muteclass = function(){
+	return Session.get("mute") ? "active" : "notactive" ;
+    };
+
   Template.foo.list = function () {
       var hashchange = Session.get('hashchange');
     var hashnow = parsehash();
@@ -80,7 +85,7 @@ if (Meteor.isClient) {
   };
 
   window.loop = false;
-    window.noise = true;
+
   Meteor.startup(function () {
 
     $('body')
@@ -107,21 +112,16 @@ if (Meteor.isClient) {
       .on('click', '#loop', function(){
         window.loop = !window.loop;
         $(this).toggleClass('btn-warning').toggleClass('btn-info');
-      }).on('click', '#noise', function(){
-          window.noise = !window.noise;
-	  if (!window.noise) {
-	      pop.mute();
+      }).on('click', '#mute', function(){
+	  Session.set('mute', !Session.get('mute'));
+	  if (Session.get('mute')) {
+	      pop.volume(0);
 	  }
 	  else {
 	      pop.volume(0.5);
 	  }
       });
 
-
-      muteonce = _.once(function(){
-	  window.noise = false;
-	  pop.mute();
-      });
     $('body')
       .on('click touchstart', ".mycarousel li", function() {
         console.log("XX");
@@ -162,14 +162,19 @@ if (Meteor.isClient) {
 	       }
 	   });
 
+
+
 	  window.nowplaying = id;
           //	sendhash({lastWatched: id});
          window.top.postMessage({'nowplaying': id}, '*');
           playUrl = function(u){
             if (!smoothnext) {
-		window.pop = Popcorn.smart( "#video", u, {mute: !!hashnow.mute} );
-		if (hashnow.mute) {
-		    muteonce();
+		window.pop = Popcorn.smart( "#video", u);
+		if (Session.get('mute')) {
+		    pop.volume(0);
+		}
+		else {
+		    pop.volume(0.5);
 		}
 		pop.play();
 

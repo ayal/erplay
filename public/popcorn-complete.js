@@ -6283,12 +6283,12 @@
         var warning = "failed to retreive duration data, reason: ";
         if ( resp.error ) {
           console.warn( warning + resp.error.message );
-          return ;
+         // return ;
         } else if ( !resp.data ) {
           console.warn( warning + "no response data" );
-          return;
+          //return;
         }
-        impl.duration = resp.data.duration;
+          impl.duration = resp.error ? 0 : resp.data.duration;
         self.dispatchEvent( "durationchange" );
 
         player = new YT.Player( elem, {
